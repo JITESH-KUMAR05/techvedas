@@ -12,6 +12,16 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Get top posts sorted by likes
+router.get('/top', async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ likes: -1 }).limit(5); // Adjust the limit as needed
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Like a post
 router.post('/:id/like', async (req, res) => {
   try {
