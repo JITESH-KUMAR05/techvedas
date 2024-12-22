@@ -21,10 +21,10 @@ mongoose.connect(process.env.MONGO_URI)
 
     // Create a collection and insert a document to create the database
     const db = mongoose.connection.db;
-    db.collection('posts').insertOne({ title: 'Initial Post', content: 'This is the initial post content.' }, (err, res) => {
-      if (err) throw err;
-      console.log('Database and collection created!');
-    });
+    // db.collection('posts').insertOne({ title: 'Initial Post', content: 'This is the initial post content.' }, (err, res) => {
+    //   if (err) throw err;
+    //   console.log('Database and collection created!');
+    // });
   })
   .catch(err => console.error('MongoDB connection error:', err));
 
