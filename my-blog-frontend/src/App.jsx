@@ -27,7 +27,7 @@ function App() {
         <header className="h-1/6">
           <Header />
         </header>
-        <main className="flex-grow overflow-auto">
+        <main className="flex-grow px-10 container overflow-auto">
           <Routes>
             <Route path="/" element={<PostList />} />
             <Route path="/create" element={<CreatePost />} />
