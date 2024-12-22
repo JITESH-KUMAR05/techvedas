@@ -8,7 +8,7 @@ const PostList = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/posts');
+        const response = await axios.get('https://techvedas-backend.onrender.com/posts');
         setLatestPosts(response.data);
       } catch (error) {
         console.error('There was an error fetching the latest posts!', error);
@@ -17,7 +17,7 @@ const PostList = () => {
 
     const fetchTopPosts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/posts/top');
+        const response = await axios.get('https://techvedas-backend.onrender.com/posts/top');
         setTopPosts(response.data);
       } catch (error) {
         console.error('There was an error fetching the top posts!', error);
@@ -30,7 +30,7 @@ const PostList = () => {
 
   const handleLike = async (id) => {
     try {
-      await axios.post(`http://localhost:5000/posts/${id}/like`);
+      await axios.post(`https://techvedas-backend.onrender.com/posts/${id}/like`);
       setLatestPosts(latestPosts.map(post => post._id === id ? { ...post, likes: post.likes + 1 } : post));
       setTopPosts(topPosts.map(post => post._id === id ? { ...post, likes: post.likes + 1 } : post));
     } catch (error) {

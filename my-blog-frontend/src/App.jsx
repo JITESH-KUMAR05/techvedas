@@ -7,14 +7,14 @@ import PostList from './components/PostList';
 import CreatePost from './components/CreatePost';
 import BlogList from './components/BlogList';
 import Blog from './components/Blog';
-import Chatbot from './components/Chatbot'; // Import the Chatbot component
+import Chatbot from './components/Chatbot'; 
 
 function App() {
   const [blogs, setBlogs] = useState([]);
 
   const handleLike = async (id) => {
     try {
-      await axios.post(`http://localhost:5000/posts/${id}/like`);
+      await axios.post(`https://techvedas-backend.onrender.com/posts/${id}/like`);
       setBlogs(blogs.map(blog => blog._id === id ? { ...blog, likes: blog.likes + 1 } : blog));
     } catch (error) {
       console.error('There was an error liking the blog!', error);
