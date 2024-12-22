@@ -7,6 +7,7 @@ import PostList from './components/PostList';
 import CreatePost from './components/CreatePost';
 import BlogList from './components/BlogList';
 import Blog from './components/Blog';
+import Chatbot from './components/Chatbot'; // Import the Chatbot component
 
 function App() {
   const [blogs, setBlogs] = useState([]);
@@ -37,6 +38,7 @@ function App() {
         <footer className="h-1/6">
           <Footer />
         </footer>
+        <Chatbot /> 
       </div>
     </Router>
   );
