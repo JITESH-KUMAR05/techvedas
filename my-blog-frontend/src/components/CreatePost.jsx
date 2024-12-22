@@ -8,7 +8,7 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/posts', { title, content });
+      const response = await axios.post('https://techvedas-backend.onrender.com/posts', { title, content });
       console.log('Post created:', response.data);
       setTitle('');
       setContent('');

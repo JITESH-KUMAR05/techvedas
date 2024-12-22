@@ -7,7 +7,7 @@ const BlogList = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/posts');
+        const response = await axios.get('https://techvedas-backend.onrender.com/posts');
         setBlogs(response.data);
       } catch (error) {
         console.error('There was an error fetching the blogs!', error);
@@ -19,7 +19,7 @@ const BlogList = () => {
 
   const handleLike = async (id) => {
     try {
-      await axios.post(`http://localhost:5000/posts/${id}/like`);
+      await axios.post(`https://techvedas-backend.onrender.com/posts/${id}/like`);
       setBlogs(blogs.map(blog => blog._id === id ? { ...blog, likes: blog.likes + 1 } : blog));
     } catch (error) {
       console.error('There was an error liking the blog!', error);

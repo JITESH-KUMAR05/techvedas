@@ -11,7 +11,7 @@ const Chatbot = () => {
             setMessages([...messages, userMessage]);
             setInput('');
 
-            const response = await fetch('http://localhost:5001/get', {
+            const response = await fetch('https://techvedas-backend-1.onrender.com/get', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
