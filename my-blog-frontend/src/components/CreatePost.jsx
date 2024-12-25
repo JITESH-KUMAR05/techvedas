@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 const CreatePost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -8,7 +10,12 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://techvedas-backend.onrender.com/posts', { title, content });
+      const token = localStorage.getItem('token');
+      const response = await axios.post(`${backendUrl}/posts`, { title, content }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       console.log('Post created:', response.data);
       setTitle('');
       setContent('');
