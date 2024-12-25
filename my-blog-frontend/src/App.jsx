@@ -1,25 +1,22 @@
-import { useState } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PostList from './components/PostList';
 import CreatePost from './components/CreatePost';
-import BlogList from './components/BlogList';
-import Blog from './components/Blog';
-import Chatbot from './components/Chatbot'; 
+import Signin from './components/Signin';
+import Signup from './components/Signup';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Chatbot from './components/Chatbot';
 
-function App() {
-  const [blogs, setBlogs] = useState([]);
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLike = async (id) => {
-    try {
-      await axios.post(`https://techvedas-backend.onrender.com/posts/${id}/like`);
-      setBlogs(blogs.map(blog => blog._id === id ? { ...blog, likes: blog.likes + 1 } : blog));
-    } catch (error) {
-      console.error('There was an error liking the blog!', error);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
     }
-  };
+  }, []);
 
   return (
     <Router>
@@ -29,19 +26,19 @@ function App() {
         </header>
         <main className="flex-grow px-10 container overflow-auto">
           <Routes>
-            <Route path="/" element={<PostList />} />
-            <Route path="/create" element={<CreatePost />} />
-            <Route path="/blogs" element={<BlogList />} />
-            <Route path="/blog/:id" element={<Blog onLike={handleLike} />} />
+            <Route path="/" element={isAuthenticated ? <PostList /> : <Navigate to="/signin" />} />
+            <Route path="/create" element={isAuthenticated ? <CreatePost /> : <Navigate to="/signin" />} />
+            <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
         </main>
         <footer className="h-1/6">
           <Footer />
         </footer>
-        <Chatbot /> 
+        <Chatbot />
       </div>
     </Router>
   );
-}
+};
 
 export default App;
