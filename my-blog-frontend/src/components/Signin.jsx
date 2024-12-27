@@ -14,7 +14,12 @@ const Signin = ({ setIsAuthenticated }) => {
     try {
       const response = await axios.post(
         `${backendUrl}/auth/signin`,
-        { email, password }
+        { email, password },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
       );
       localStorage.setItem("token", response.data.token);
       setIsAuthenticated(true);
