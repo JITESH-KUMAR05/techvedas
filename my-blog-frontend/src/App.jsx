@@ -28,8 +28,8 @@ const App = () => {
           <Routes>
             <Route path="/" element={isAuthenticated ? <PostList /> : <Navigate to="/signin" />} />
             <Route path="/create" element={isAuthenticated ? <CreatePost /> : <Navigate to="/signin" />} />
-            <Route path="/signin" element={<Signin setIsAuthenticated={setIsAuthenticated} />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={isAuthenticated ? <Navigate to = "/" /> : <Signin setIsAuthenticated = {setIsAuthenticated} />} />
+            <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <Signup /> } />
           </Routes>
         </main>
         <footer className="h-1/6">
