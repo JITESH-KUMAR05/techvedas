@@ -7,6 +7,8 @@ import Signup from './components/Signup';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
+import UserPosts from './components/UserPosts';
+import AdminDashboard from './components/AdminDashboard'; // Assuming you have an AdminDashboard component
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,14 +24,18 @@ const App = () => {
     <Router>
       <div className="flex flex-col h-screen">
         <header className="h-1/6">
-          <Header />
+          <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
         </header>
         <main className="flex-grow px-10 container overflow-auto">
           <Routes>
             <Route path="/" element={isAuthenticated ? <PostList /> : <Navigate to="/signin" />} />
             <Route path="/create" element={isAuthenticated ? <CreatePost /> : <Navigate to="/signin" />} />
-            <Route path="/signin" element={isAuthenticated ? <Navigate to = "/" /> : <Signin setIsAuthenticated = {setIsAuthenticated} />} />
-            <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <Signup /> } />
+            <Route path="/signin" element={isAuthenticated ? <Navigate to="/" /> : <Signin setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/signup" element={isAuthenticated ? <Navigate to="/" /> : <Signup />} />
+            <Route path="/profile" element={isAuthenticated ? <UserPosts /> : <Navigate to="/signin" />} />
+            <Route path="/blogs" element={<PostList />} />
+            <Route path="/admin" element={isAuthenticated ? <AdminDashboard /> : <Navigate to="/signin" />} />
+            <Route path="/:username" element={isAuthenticated ? <UserPosts /> : <Navigate to="/signin" />} /> {/* Add this line */}
           </Routes>
         </main>
         <footer className="h-1/6">
