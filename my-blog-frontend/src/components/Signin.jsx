@@ -22,6 +22,7 @@ const Signin = ({ setIsAuthenticated }) => {
         }
       );
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("username", response.data.username); // Ensure the response includes the username
       setIsAuthenticated(true);
       navigate('/');
     } catch (error) {
