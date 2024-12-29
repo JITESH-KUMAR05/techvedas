@@ -5,28 +5,26 @@ import { useNavigate } from "react-router-dom";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Signin = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${backendUrl}/auth/signin`,
-        { email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("username", response.data.username); // Ensure the response includes the username
+      const response = await axios.post(`${backendUrl}/auth/signin`, {
+        email,
+        password
+      });
+
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', response.data.username);
+      localStorage.setItem('userId', response.data.userId);
       setIsAuthenticated(true);
       navigate('/');
     } catch (error) {
-      console.error("There was an error signing in!", error);
+      console.error('Signin error:', error.response?.data || error.message);
+      alert('Failed to sign in. Please try again.');
     }
   };
 
