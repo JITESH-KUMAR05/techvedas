@@ -1,26 +1,55 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const CreatePost = () => {
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!title.trim() || !content.trim()) {
+      alert('Title and content are required');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${backendUrl}/posts`, { title, content }, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      if (!token) {
+        navigate('/signin');
+        return;
+      }
+
+      const response = await axios.post(
+        `${backendUrl}/posts`,
+        {
+          title: title.trim(),
+          content: content.trim()
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
-      });
-      console.log('Post created:', response.data);
-      setTitle('');
-      setContent('');
+      );
+
+      if (response.status === 201) {
+        navigate('/');
+      }
     } catch (error) {
-      console.error('There was an error creating the post!', error);
+      console.error('Error creating post:', error.response?.data || error.message);
+      if (error.response?.status === 401) {
+        localStorage.removeItem('token');
+        navigate('/signin');
+      } else {
+        alert('Failed to create post. Please try again.');
+      }
     }
   };
 

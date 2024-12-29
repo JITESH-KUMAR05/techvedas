@@ -32,17 +32,27 @@ const PostList = () => {
 
   const handleLike = async (id) => {
     try {
-      await axios.post(`${backendUrl}/posts/${id}/like`);
-      setLatestPosts(
-        latestPosts.map((post) =>
-          post._id === id ? { ...post, likes: post.likes + 1 } : post
-        )
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('No token found');
+      }
+      
+      await axios.post(
+        `${backendUrl}/posts/${id}/like`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
-      setTopPosts(
-        topPosts.map((post) =>
-          post._id === id ? { ...post, likes: post.likes + 1 } : post
-        )
-      );
+      
+      // Update posts after successful like
+      const response = await axios.get(`${backendUrl}/posts`);
+      setLatestPosts(response.data);
+      
+      const topResponse = await axios.get(`${backendUrl}/posts/top`);
+      setTopPosts(topResponse.data);
     } catch (error) {
       console.error("There was an error liking the post!", error);
     }
@@ -59,12 +69,12 @@ const PostList = () => {
             <p className="text-gray-500 text-sm">
               {new Date(post.date).toLocaleDateString()}
             </p>
-            <p className="text-gray-500 text-sm">By {post.author.username}</p>
+            <p className="text-gray-500 text-sm">By {post.author}</p>
             <button
               onClick={() => handleLike(post._id)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              Like ({post.likes.length})
+              Like ({post.likes?.length || 0})
             </button>
           </div>
         ))}
@@ -79,11 +89,12 @@ const PostList = () => {
             <p className="text-gray-500 text-sm">
               {new Date(post.date).toLocaleDateString()}
             </p>
+            <p className="text-gray-500 text-sm">By {post.author}</p>
             <button
               onClick={() => handleLike(post._id)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-              Like ({post.likes})
+              Like ({post.likes?.length || 0})
             </button>
           </div>
         ))}
