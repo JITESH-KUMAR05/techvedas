@@ -11,16 +11,26 @@ const Chatbot = () => {
             setMessages([...messages, userMessage]);
             setInput('');
 
-            const response = await fetch('https://techvedas-backend-1.onrender.com/get', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `msg=${encodeURIComponent(input)}`,
-            });
-            const data = await response.json();
-            const botMessage = { sender: 'bot', text: data.response };
-            setMessages([...messages, userMessage, botMessage]);
+            try {
+                const response = await fetch('http://127.0.0.1:5001/get', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `msg=${encodeURIComponent(input)}`,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const botMessage = { sender: 'bot', text: data.response };
+                setMessages([...messages, userMessage, botMessage]);
+            } catch (error) {
+                const errorMessage = { sender: 'bot', text: `Error: ${error.message}` };
+                setMessages([...messages, userMessage, errorMessage]);
+            }
         }
     };
 
