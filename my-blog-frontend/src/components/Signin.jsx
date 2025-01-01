@@ -35,9 +35,9 @@ const Signin = ({ setIsAuthenticated }) => {
           <div className="w-full px-4">
             <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
               <div className="mb-10 text-center md:mb-16">
-                <a href="/#" className="mx-auto inline-block max-w-[160px]">
+                <a href="/" className="mx-auto inline-block max-w-[140px]">
                   <img
-                    src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo-primary.svg"
+                    src="icon.png"
                     alt="logo"
                   />
                 </a>
@@ -50,6 +50,7 @@ const Signin = ({ setIsAuthenticated }) => {
                   required
                   name="email"
                   placeholder="Email"
+                  className=""
                 />
                 <InputBox
                   type="password"
